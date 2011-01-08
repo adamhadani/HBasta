@@ -1,4 +1,41 @@
 HBasta
 A Simple wrapper around Thrift HBase API
 
+Requirements
+------------
+To install, Thrift needs to be installed:
+
+* the Thrift package - This is used to dynamically create the hbase Thrift API python client bindings.
+  This can be typically installed e.g by downloading Thrift from project homepage (http://thrift.apache.org/download/)
+  and installing it:
+
+        tar xzf thrift-0.5.0.tar.gz
+	cd thrift-0.5.0
+	./configure && make
+	sudo make install
+
+* the Thrift python bindings - These should be installed automatically when using setuptools (see below on installation instructions)
+
+Installing
+----------
+Installation should be straightforward:
+
+	python setup.py install
+
+Examples
+--------
+Example usage:
+
+
+#!/usr/bin/env python
+from hbasta import HBasta
+
+client = HBasta(('localhost', '9999'))
+row = client.get_row('mytable', 'row_key')
+
+
+
+
+
+	
 
