@@ -7,6 +7,7 @@ API Wrapper for HBase Thrift Client
 
 import sys
 import logging
+from itertools import imap
  
 from thrift import Thrift
 from thrift.transport import TSocket
@@ -21,13 +22,13 @@ class HBasta(object):
     
     LOG = logging.getLogger("HBasta")
 
-    def __init__(self, hostnport):
+    def __init__(self, host, port):
         """Initialize client.
 
         Params:
             hostnport - Tuple of (host, port) to connect to
         """
-        self._hostnport = hostnport
+        self._hostnport = (host, int(port))
         self._client = None
 
     @property
@@ -55,4 +56,9 @@ class HBasta(object):
             ret = self.client.getRow(table, row)
         else:
             ret = self.client.getRowWithColumns(table, row, colspec)
-        return ret
+
+        if ret:
+            return dict(imap(lambda i: (i[0], i[1].value), \
+                            ret[0].columns.iteritems()))
+        else:
+            return None

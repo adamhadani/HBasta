@@ -26,7 +26,7 @@ setup(
     author       = 'Adam Ever-Hadani',
     author_email = 'adamhadani@gmail.com',
     url          = 'http://github.com/adamhadani/hbasta',
-    keywords     = ['hbasta', 'hbase', 'thrift']
+    keywords     = ['hbasta', 'hbase', 'thrift'],
     classifiers = [
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.6",        
