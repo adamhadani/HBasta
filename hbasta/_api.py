@@ -43,6 +43,16 @@ class HBasta(object):
             transport.open()
         return self._client
 
+    def create_table(self, table, col_families):
+        """Create a new HBase table
+    
+        Params
+            table - Table name
+            col_families - list of column family names
+        """
+        self.client.createTable(table, [ColumnDescriptor({'name': c+':'}) \
+                                    for c in col_families])
+
     def get_row(self, table, row, colspec=None):
         """Get single row of data, possibly filtered
         using the colspec construct

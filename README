@@ -36,15 +36,28 @@ Installation should be straightforward:
 	python setup.py install
 
 
-Examples
---------
-Example usage:
+Usage
+------
+The class exposes a simple interface to most of the common HBase operations:
 
-#!/usr/bin/env python
-from hbasta import HBasta
+* Create a table
 
-client = HBasta(('localhost', '9999'))
-row = client.get_row('mytable', 'row_key')
+>>> from hbasta import HBasta
+>>> client = HBasta('localhost', 9999)
+>>> client.create_table('tablename')
+
+
+* Get a whole / partial row
+
+>>> from hbasta import HBasta
+>>> client = HBasta('localhost', 9999)
+>>> row = client.get_row('mytable', 'row_key')
+>>> print row
+{'colfamily:col1': col1_val, ...}
+>>> partial_row = client.get_row('mytable', 'row_key', colspec=['colfamily:col2'])
+>>> print partial_row
+{'colfamily:col2': col2_val}
+
 
 
 
