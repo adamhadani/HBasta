@@ -3,18 +3,31 @@ A Simple wrapper around Thrift HBase API
 
 Requirements
 ------------
-To install, Thrift needs to be installed:
+To install, You will need the thrift python library as well as the (generated) hbase python library.
 
-* the Thrift package - This is used to dynamically create the hbase Thrift API python client bindings.
-  This can be typically installed e.g by downloading Thrift from project homepage (http://thrift.apache.org/download/)
-  and installing it:
+* Thrift
+
+  Thrift can be typically installed e.g by downloading Thrift from project homepage (http://thrift.apache.org/download/)
+  and using the Makefile:
 
         tar xzf thrift-0.5.0.tar.gz
 	cd thrift-0.5.0
 	./configure && make
 	sudo make install
 
-* the Thrift python bindings - These should be installed automatically when using setuptools (see below on installation instructions)
+* Thrift python bindings 
+
+  These should be installed automatically when using setuptools (see below on installation instructions)
+
+* hbase generated library
+
+  Run the included 'generate_hbase_py.sh' to generate the hbase python module.
+  Afterwards, it should be automatically installed when using setuptools (see below on installation instructions).
+
+  NOTE: This library will by default reflect latest HBase Thrift API from the HBase trunk.
+  If you'd like to bundle a different hbase generated API, simply generate it yourself from the appropriate .thrift
+  file and then place all the generated files in a folder called 'hbase', under the hbasta project root before installing.
+
 
 Installing
 ----------
@@ -22,10 +35,10 @@ Installation should be straightforward:
 
 	python setup.py install
 
+
 Examples
 --------
 Example usage:
-
 
 #!/usr/bin/env python
 from hbasta import HBasta
