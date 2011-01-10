@@ -17,6 +17,12 @@ from thrift.protocol import TBinaryProtocol
 from hbase import Hbase
 from hbase.ttypes import *
 
+def _row_to_dict(row):
+    """Convert an HBase Row as returned by the Thrift API
+    to a native python dictionary, mapping column names to values"""
+    return dict(imap(lambda i: (i[0], i[1].value), \
+                     row.columns.iteritems()))
+
 class HBasta(object):
     """HBase API entry point"""
     
@@ -79,20 +85,37 @@ class HBasta(object):
             colspec - Specifier of which columns to return, in the form of list of column names
         """
         if not colspec:
-            ret = self.client.getRow(table, row)
+            rows = self.client.getRow(table, row)
         else:
-            ret = self.client.getRowWithColumns(table, row, colspec)
+            rows = self.client.getRowWithColumns(table, row, colspec)
 
-        if ret:
-            return dict(imap(lambda i: (i[0], i[1].value), \
-                            ret[0].columns.iteritems()))
+        if rows:
+            return _row_to_dict(rows[0])
         else:
             return None
+
+    def delete_row(self, table, row):
+        """Completely delete all data associated with row"""
+        self.client.deleteAllRow(table, row)
+
+    def atomic_increment(self, table, row, column, val=1):
+        """Atomic increment of value for given column by the
+        value specified"""
+        return self.client.atomicIncrement(table, row, column, val)
 
     def scanner_open(self, table, start_row, colspec):
         """Open a scanner for table at given start_row,
         fetching columns as specified in colspec"""
         return self.client.scannerOpen(table, start_row, colspec)
+
+    def scanner_open_with_stop(self, start_row, stop_row, colspec):
+        """Open a scanner for table at given start_row, scanning up to
+        specified stop_row"""
+        return self.client.scannerOpenWithStop(table, start_row, stop_row, colspec)
+
+    def scanner_open_with_prefix(self, start_prefix, colspec):
+        """Open a scanner for a given prefix on row name"""
+        return self.client.scannerOpenWithPrefix(start_prefix, colspec)
 
     def scanner_close(self, scanner_id):
         """Close a scanner"""
@@ -103,8 +126,16 @@ class HBasta(object):
 
         rows = self.client.scannerGet(scanner_id)
         if rows:
-            return dict(imap(lambda i: (i[0], i[1].value), \
-                            rows[0].columns.iteritems()))
+            return _row_to_dict(rows[0])
         else:
             return None
 
+    def scanner_get_list(self, scanner_id, num_rows):
+        """Returns up to num_rows rows starting at current
+        scanner location. Returns as a generator expression."""
+        rows = self.client.scannerGetList(scanner_id, num_rows)
+        if rows:
+            for row in rows:
+                yield _row_to_dict(row)
+        else:
+            return None
