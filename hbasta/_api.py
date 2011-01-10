@@ -108,14 +108,14 @@ class HBasta(object):
         fetching columns as specified in colspec"""
         return self.client.scannerOpen(table, start_row, colspec)
 
-    def scanner_open_with_stop(self, start_row, stop_row, colspec):
+    def scanner_open_with_stop(self, table, start_row, stop_row, colspec):
         """Open a scanner for table at given start_row, scanning up to
         specified stop_row"""
         return self.client.scannerOpenWithStop(table, start_row, stop_row, colspec)
 
-    def scanner_open_with_prefix(self, start_prefix, colspec):
+    def scanner_open_with_prefix(self, table, start_prefix, colspec):
         """Open a scanner for a given prefix on row name"""
-        return self.client.scannerOpenWithPrefix(start_prefix, colspec)
+        return self.client.scannerOpenWithPrefix(table, start_prefix, colspec)
 
     def scanner_close(self, scanner_id):
         """Close a scanner"""
@@ -126,7 +126,7 @@ class HBasta(object):
 
         rows = self.client.scannerGet(scanner_id)
         if rows:
-            return _row_to_dict(rows[0])
+            return (rows[0].row, _row_to_dict(rows[0]))
         else:
             return None
 
@@ -136,6 +136,6 @@ class HBasta(object):
         rows = self.client.scannerGetList(scanner_id, num_rows)
         if rows:
             for row in rows:
-                yield _row_to_dict(row)
+                yield (row.row, _row_to_dict(row))
         else:
-            return None
+            return
