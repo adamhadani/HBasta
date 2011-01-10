@@ -1,18 +1,32 @@
 HBasta
 A Simple wrapper around Thrift HBase API
 
-HBasta provided a thin wrapper on top of the generated hbase thrift API
-that takes care of some of the boilerplate needed to setup a connection,
-as well as dealing with most of the Thrift types, implicitly converting
-them to native python structures (e.g dict, list, tuple) in the most natural
-way possible.
+
+Introduction
+------------
+HBasta aims to do 2 things mostly:
+
+* Ease the pain of initially setting up all requirements to actually use the
+  hbase Thrift python API (e.g thrift, thrift python bindings, generated hbase bindings)
+
+* Provide a thin wrapper on top of the generated hbase thrift API
+  that takes care of some of the boilerplate needed to setup a connection,
+  as well as dealing with most of the Thrift types, implicitly converting
+  them to native python structures (e.g dict, list, tuple) in the most natural
+  way possible.
 
 It was designed for lazy people (like me) in mind :)
 
 
-Requirements
-------------
-To install, You will need the thrift python library as well as the (generated) hbase python library.
+Prerequisites
+-------------
+* setuptools
+
+  If you've done any serious python, you probably have setuptools installed. 
+  Easy way to check would be to see if you have the 'easy_install' executable in your path.
+  Otherwise, It can easily be installed with most linux package manages. on Ubuntu:
+
+	apt-get install python-setuptools
 
 * Thrift
 
@@ -41,6 +55,13 @@ To install, You will need the thrift python library as well as the (generated) h
 Installing
 ----------
 Installation should be straightforward:
+
+1. As mentioned above, use 'generate_hbase_py.sh' to get latest Hbase.thrift from Hbase trunk and generate the
+   Hbase python bindings on the fly:
+
+	./generate_hbase_py.sh
+
+2. Now you can install with setuptools easily:
 
 	python setup.py install
 
