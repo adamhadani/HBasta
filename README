@@ -1,6 +1,15 @@
 HBasta
 A Simple wrapper around Thrift HBase API
 
+HBasta provided a thin wrapper on top of the generated hbase thrift API
+that takes care of some of the boilerplate needed to setup a connection,
+as well as dealing with most of the Thrift types, implicitly converting
+them to native python structures (e.g dict, list, tuple) in the most natural
+way possible.
+
+It was designed for lazy people (like me) in mind :)
+
+
 Requirements
 ------------
 To install, You will need the thrift python library as well as the (generated) hbase python library.
