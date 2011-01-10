@@ -1,1 +1,3 @@
 *.pyc
+hbase/
+hbasta.egg-info/
