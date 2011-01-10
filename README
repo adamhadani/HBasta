@@ -4,7 +4,7 @@ A Simple wrapper around Thrift HBase API
 
 Introduction
 ------------
-HBasta aims to do 2 things mostly:
+HBasta aims to do three things:
 
 * Ease the pain of initially setting up all requirements to actually use the
   hbase Thrift python API (e.g thrift, thrift python bindings, generated hbase bindings)
@@ -14,6 +14,10 @@ HBasta aims to do 2 things mostly:
   as well as dealing with most of the Thrift types, implicitly converting
   them to native python structures (e.g dict, list, tuple) in the most natural
   way possible.
+
+* Provide some simple command-line tools to streamline working
+  with hbase. In particular, easy ways of creating data dumps/views
+  by scanning different ranges in tables
 
 It was designed for lazy people (like me) in mind :)
 
@@ -69,7 +73,7 @@ Installation should be straightforward:
 
 Usage
 ------
-The class exposes a simple interface to most of the common HBase operations:
+The HBasta class exposes a simple programmatic interface to most of the common HBase operations:
 
 * Create a table
 
@@ -98,6 +102,11 @@ The class exposes a simple interface to most of the common HBase operations:
 ...
 >>> client.scanner_close(scanner_id)
 
+
+For usage instructions on how to use the command-line utilities, use the --help flag.
+Currently supported command-line tools:
+
+* hbase-prefix-scan - Run a prefix-based scanner on a table
 
 
 
