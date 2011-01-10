@@ -58,7 +58,14 @@ The class exposes a simple interface to most of the common HBase operations:
 >>> print partial_row
 {'colfamily:col2': col2_val}
 
+* Use a scanner
 
+>>> from hbasta import HBasta
+>>> client = HBasta('localhost', 9999)
+>>> scanner_id = client.scanner_open('mytable', 'row_0_id', colspec=('data',))
+>>> for row, cols in client.scanner_get_list(scanner_id, num_rows=100):
+...
+>>> client.scanner_close(scanner_id)
 
 
 
