@@ -47,7 +47,13 @@ with hbase in python programs.
     packages = find_packages(),
 
     include_package_data = False,    
-    
+   
+    entry_points = {
+        'console_scripts': [
+            'hbase-prefix-scan = hbasta._cmd:prefix_scan',
+        ]
+    },
+ 
     install_requires = [
         "Thrift>=0.5.0"
     ],

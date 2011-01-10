@@ -12,7 +12,7 @@ from optparse import OptionParser
 from hbasta import HBasta, InterpolatedOptionParser
 
 # Default locations for our configuration rc files
-RCFILES = ['~/.hbastarc', '/etc/hbastarc']
+RCFILES = [os.path.join(os.environ['HOME'], '.hbastarc'), '/etc/hbastarc']
 
 def prefix_scan():
     parser = InterpolatedOptionParser(profile='prefix_scan', rcfiles=RCFILES)
@@ -22,6 +22,6 @@ def prefix_scan():
     parser.add_option("-p", "--prefix", dest="table", help="HBase table name")
 
     options, args = parser.parse_args()
-
-    return options, args
+    print options.port
+    
 

@@ -31,6 +31,6 @@ class InterpolatedOptionParser(OptionParser):
                         defaults[key] = val
 
                 break
-                    
+
         self.set_defaults(**defaults)
 
