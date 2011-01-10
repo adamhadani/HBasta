@@ -53,6 +53,22 @@ class HBasta(object):
         self.client.createTable(table, [ColumnDescriptor({'name': c+':'}) \
                                     for c in col_families])
 
+    def enable_table(self, table):
+        """Enable an HBase table"""
+        self.client.enableTable(table)
+
+    def disable_table(self, table):
+        """Disable an HBase table"""
+        self.client.disableTable(table)
+
+    def is_table_enabled(self, table):
+        """Check if table is enabled"""
+        return self.client.isTableEnabled(table)
+
+    def get_table_names(self):
+        """Get list of all available table names"""
+        return self.client.getTableNames()
+
     def get_row(self, table, row, colspec=None):
         """Get single row of data, possibly filtered
         using the colspec construct
@@ -72,3 +88,23 @@ class HBasta(object):
                             ret[0].columns.iteritems()))
         else:
             return None
+
+    def scanner_open(self, table, start_row, colspec):
+        """Open a scanner for table at given start_row,
+        fetching columns as specified in colspec"""
+        return self.client.scannerOpen(table, start_row, colspec)
+
+    def scanner_close(self, scanner_id):
+        """Close a scanner"""
+        self.client.scannerClose(scanner_id)
+
+    def scanner_get(self, scanner_id):
+        """Return current row scanner is pointing to."""
+
+        rows = self.client.scannerGet(scanner_id)
+        if rows:
+            return dict(imap(lambda i: (i[0], i[1].value), \
+                            rows[0].columns.iteritems()))
+        else:
+            return None
+
