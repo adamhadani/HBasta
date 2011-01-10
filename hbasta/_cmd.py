@@ -45,14 +45,15 @@ def prefix_scan():
         columns.update(row_key=row)
         return json.dumps(columns)
 
-    try:
-        rows = client.scanner_get_list(scanner_id, num_rows=options.num_rows)
+    if options.format == 'csv' or options.format == 'tsv':
+        _print_func = lambda x, y: _sep_char.join([x]+y.values())
 
         # Print header
-        if options.format == 'csv' or options.format == 'tsv':
-            _print_func = lambda x, y: _sep_char.join([x]+y.values())
+        print _sep_char.join(["row_key"]+options.colspec)
 
-            print _sep_char.join(["row_key"]+options.colspec)
+
+    try:
+        rows = client.scanner_get_list(scanner_id, num_rows=options.num_rows)
 
         while rows:
             for row, columns in rows:
