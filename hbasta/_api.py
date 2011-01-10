@@ -134,8 +134,4 @@ class HBasta(object):
         """Returns up to num_rows rows starting at current
         scanner location. Returns as a generator expression."""
         rows = self.client.scannerGetList(scanner_id, num_rows)
-        if rows:
-            for row in rows:
-                yield (row.row, _row_to_dict(row))
-        else:
-            return
+        return map(lambda x: (x.row, _row_to_dict(x)), rows)
