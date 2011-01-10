@@ -26,10 +26,15 @@ echo "Grabbing latest Hbase.thrift..."
 wget 'https://svn.apache.org/repos/asf/hbase/trunk/src/main/resources/org/apache/hadoop/hbase/thrift/Hbase.thrift' -O Hbase.thrift -q || {
 	error "Could not download Hbase.thrift, aborting."
 }
-thrift  --gen py Hbase.thrift
+
+echo "Generating hbase python module from Hbase.thrift..."
+thrift  --gen py Hbase.thrift || {
+	error "Could not generate Hbase python bindings from Hbase.thrift, aborting."
+}
 
 popd >/dev/null
 
+rm -rf $OUTDIR
 mkdir -p $OUTDIR
 cp  $TMPDIR/gen-py/hbase/*.py $OUTDIR
 
