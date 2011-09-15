@@ -75,6 +75,17 @@ class HBasta(object):
         """Get list of all available table names"""
         return self.client.getTableNames()
 
+    def add_row(self, table, row, cols):
+        """Add a new row to table.
+
+        Params:
+            table - Table name
+            key - Row key
+            cols - dictionary of fully qualified column name pointing to data (e.g { 'family:colname': value } )
+        """
+        mutations = (Mutation(false, col, val) for col, val in cols.iteritems())
+        self.client.mutateRow(table, row, mutations)
+
     def get_row(self, table, row, colspec=None):
         """Get single row of data, possibly filtered
         using the colspec construct
