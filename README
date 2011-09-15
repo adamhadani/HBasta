@@ -93,6 +93,12 @@ The HBasta class exposes a simple programmatic interface to most of the common H
 >>> print partial_row
 {'colfamily:col2': col2_val}
 
+
+* Add a new row
+
+>>> client.add_row('mytable', 'row_key', cols = { 'myfamily:mycolumn' => 'mydata' })
+
+
 * Use a scanner
 
 >>> from hbasta import HBasta
